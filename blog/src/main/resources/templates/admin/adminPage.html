@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            border: 5;
+            overflow: hidden;
+            height: 100%;
+            max-height: 100%;
+        }
+
+        #topFrame{
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100px;
+            width: 100%;
+            overflow: hidden;
+            vertical-align: middle;
+        }
+
+        #leftFrame{
+            position: fixed;
+            top: 100px;
+            left: 0;
+            height: 100%;
+            width: 150px;
+            overflow: hidden;
+            vertical-align: top;
+        }
+
+        #rightFrame{
+            position: absolute;
+            left: 150px;
+            top: 100px;
+            height: 100%;
+            width: 100%;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+        }
+
+        #body{
+            background: bisque;
+            undefined;
+            width: 90%;
+            overflow:auto;
+            margin: 0 auto;
+        }
+    </style>
+
+    <script type="text/javascript" src="../js/jquery-3.6.0.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+
+        function login(){
+            window.location.href="loginPage"
+        }
+
+        /*function updataPassword(){
+            var username = $("#username").val();
+            alert(username)
+            var power = $("#power").val();
+            window.location.href="updataPasswordPage?username=" + username + "&power=" + power;
+            //th:window.location.href="@{/login/updataPasswordPage(username=${username},power=${power})}"
+        }*/
+
+        function updataPassword(){
+            //alert([[${username}]]);
+            //alert([[${power}]]);
+            var username = [[${username}]];
+            var power = [[${power}]];
+            window.location.href="updataPasswordPage?username=" + username + "&power=" + power;
+        }
+
+        function sign(){
+            window.location.href="loginPage";
+        }
+
+    </script>
+
+</head>
+<body id="body">
+<h1>admin</h1>
+<!--<frameset rows="50px,*" framespacing="0" frameborder="1">
+    <frame src="top.html" name="topFrame" id="topFrame"  noresize="noresize" scrolling="No"/>
+    <frameset cols="220px,*" framespacing="0" frameborder="1">
+        <frame src="left.html" name="leftFrame" id="leftFrame" noresize="noresize" scrolling="No"></freme>
+        <frame src="right.html" name="rightFrame" id="rightFrame"  noresize="noresize" scrolling="No"></freme>
+    </frameset>
+</frameset>-->
+
+<div>
+<iframe id="topFrame"  name="topFrame" src="/backPage/top"></iframe>
+</div>
+
+<div>
+    <iframe id="leftFrame" name="leftFrame" src="/backPage/left"></iframe>
+    <iframe id="rightFrame" name="rightFrame" src="/backPage/right"></iframe>
+</div>
+
+<!--<select>
+    <option th:onclick="updataPassword()">修改密码</option>
+    <option onclick="sign()">退出账号</option>
+</select>-->
+
+<!--<a th:href="@{/login/updataPasswordPage(username=${username},power=${power})}">修改密码</a>-->
+<!--<input type="hidden" value="[[${username}]]" id="username">-->
+<!--<input type="text" value="[[${power}]]" id="power">-->
+<!--<input type="button"  value="退出账号" onclick="login()"/>-->
+
+</body>
+</html>

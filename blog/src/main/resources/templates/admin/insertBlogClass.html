@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<style type="text/css">
+		#table_line{
+			border-style: dashed;
+			width: 80%;
+			margin-left: 20px;
+
+		}
+
+		#body{
+			background: bisque;
+			undefined;
+			width: 90%;
+			overflow:auto;
+			margin: 0 auto;
+		}
+	</style>
+	<script type="text/javascript" src="../js/jquery-3.6.0.js"></script>
+	<script type="text/javascript">
+		function recall(){
+			window.location.href="right"
+		}
+	</script>
+</head>
+<body id="body" style="background-color: azure;">
+<h3>&nbsp;&nbsp;&nbsp;&nbsp;当前位置：分类编辑/添加</h3>
+<form action="/admin/addBlogClass" method="get">
+	<table border="1" align="center" id="table_line">
+		<tr>
+			<td width="200px">分类名称</td>
+			<td>
+				<input type="text" name="name" id="name">
+			</td>
+		</tr>
+		<tr>
+			<td>排序</td>
+			<td>
+				<input type="text" name="sort" id="sort">
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="submit" value="提交">&nbsp;&nbsp;
+				<input type="reset" value="重置">&nbsp;&nbsp;
+				<input type="button" value="取消" onclick="recall()">
+			</td>
+		</tr>
+	</table>
+</form>
+</body>
+</html>

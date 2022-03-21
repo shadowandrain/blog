@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdy.blog.mapper.BlogMapper" >
+  <resultMap id="BaseResultMap" type="com.zdy.blog.model.Blog" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="Title" property="title" jdbcType="VARCHAR" />
+    <result column="CreatedTime" property="createdtime" jdbcType="TIMESTAMP" />
+    <result column="ClassId" property="classid" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.zdy.blog.model.Blog" extends="BaseResultMap" >
+    <result column="Context" property="context" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <resultMap id="BlogAndClass" type="com.zdy.blog.model.Blog">
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="Title" property="title" jdbcType="VARCHAR" />
+    <result column="CreatedTime" property="createdtime" jdbcType="TIMESTAMP" />
+    <result column="ClassId" property="classid" jdbcType="INTEGER" />
+    <result column="Context" property="context" jdbcType="LONGVARCHAR" />
+    <association property="classBlog" javaType="com.zdy.blog.model.ClassBlog">
+      <id column="Id" property="id" jdbcType="INTEGER" />
+      <result column="Name" property="name" jdbcType="VARCHAR" />
+    </association>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    Id, Title, CreatedTime, ClassId
+  </sql>
+  <sql id="Blob_Column_List" >
+    Context
+  </sql>
+  <sql id="All_List">
+    Id, Title, CreatedTime, ClassId, Context
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from blog
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAll" resultType="com.zdy.blog.model.Blog">
+    select
+    <include refid="All_List" />
+    from blog
+  </select>
+
+  <select id="selectPageSizeBlog" resultMap="BlogAndClass" parameterType="java.lang.Integer">
+    select
+        b.Title,c.Name,b.CreatedTime,b.Context,b.Id,b.ClassId
+    from
+        blog b
+    join
+        class c
+    on
+        b.ClassId=c.Id
+    order by
+        b.CreatedTime
+    asc
+        limit
+        #{pageNo,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER};
+  </select>
+
+
+  <select id="selectAllTotle" resultType="java.lang.Integer">
+    select
+    count(*)
+    from blog
+  </select>
+
+  <select id="selectAllTotleTwo" resultType="java.lang.Integer">
+    select
+      count(*)
+    from blog
+    where
+      Title = #{title} or name = #{name}
+      like
+    concat('%',#{title,jdbcType=VARCHAR},'%')
+  </select>
+
+
+  <select id="selectAllTwo" resultMap="BlogAndClass">
+    select
+        b.Title,c.Name,b.CreatedTime,b.Context,b.Id,b.ClassId
+    from
+        blog b
+    join
+        class c
+    on
+        b.ClassId=c.Id
+    order by
+        b.CreatedTime
+    asc ;
+  </select>
+
+  <select id="selectByTitle" resultMap="BlogAndClass" parameterType="java.lang.String">
+    select
+        b.Title,c.Name,b.CreatedTime,b.Context,b.Id,b.ClassId
+    from
+        blog b
+    join
+        class c
+    on
+        b.ClassId=c.Id
+    where
+        Title
+    like
+        concat('%',#{title,jdbcType=VARCHAR},'%')
+    order by
+        b.CreatedTime
+    asc
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from blog
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+<!--  -->
+  <delete id="deleteByInfo" parameterType="com.zdy.blog.model.Blog">
+    delete from blog
+    where Title = #{title,jdbcType=VARCHAR} and ClassId = #{classid,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.zdy.blog.model.Blog" >
+    insert into blog (Id, Title, CreatedTime, 
+      ClassId, Context)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{createdtime,jdbcType=TIMESTAMP}, 
+      #{classid,jdbcType=INTEGER}, #{context,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdy.blog.model.Blog" >
+    insert into blog
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="title != null" >
+        Title,
+      </if>
+      <if test="createdtime != null" >
+        CreatedTime,
+      </if>
+      <if test="classid != null" >
+        ClassId,
+      </if>
+      <if test="context != null" >
+        Context,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="createdtime != null" >
+        #{createdtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="classid != null" >
+        #{classid,jdbcType=INTEGER},
+      </if>
+      <if test="context != null" >
+        #{context,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdy.blog.model.Blog" >
+    update blog
+    <set >
+      <if test="title != null" >
+        Title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="createdtime != null" >
+        CreatedTime = #{createdtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="classid != null" >
+        ClassId = #{classid,jdbcType=INTEGER},
+      </if>
+      <if test="context != null" >
+        Context = #{context,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zdy.blog.model.Blog" >
+    update blog
+    set Title = #{title,jdbcType=VARCHAR},
+      CreatedTime = #{createdtime,jdbcType=TIMESTAMP},
+      ClassId = #{classid,jdbcType=INTEGER},
+      Context = #{context,jdbcType=LONGVARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdy.blog.model.Blog" >
+    update blog
+    set Title = #{title,jdbcType=VARCHAR},
+      CreatedTime = #{createdtime,jdbcType=TIMESTAMP},
+      ClassId = #{classid,jdbcType=INTEGER}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

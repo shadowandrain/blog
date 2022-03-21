@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            border: 5;
+            overflow: hidden;
+            height: 100%;
+            max-height: 100%;
+        }
+
+        #topFrame{
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100px;
+            width: 100%;
+            overflow: hidden;
+            vertical-align: middle;
+        }
+
+        #leftFrame{
+            position: fixed;
+            top: 100px;
+            left: 0;
+            height: 100%;
+            width: 150px;
+            overflow: hidden;
+            vertical-align: top;
+        }
+
+        #rightFrame{
+            position: absolute;
+            left: 150px;
+            top: 100px;
+            height: 100%;
+            width: 100%;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+        }
+
+        #style{
+            background: bisque;
+            undefined;
+            width: 90%;
+            overflow:auto;
+            margin: 0 auto;
+        }
+
+        #context{
+            border:3px solid #000;
+        }
+
+        #span_left{
+            float: left;
+        }
+
+        #span_right{
+            float: right;
+        }
+
+        .total_style{
+            font-family: 楷体;
+            font-size: 15px;
+            text-decoration:none;
+        }
+    </style>
+    <script type="text/javascript" src="../js/jquery-3.6.0.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+        function submit(){
+            var commentContext = document.getElementById("commentContext").value;
+            var blogid = document.getElementById("blogid").value;
+            var username = document.getElementById("username").value;
+            location.href="user/comment?context=" + commentContext + "&id=" + blogid + "&username=" + username;
+            alert("评论成功")
+        }
+
+
+        function homePage(){
+            if([[${nowPage}]] == 1){
+                alert("当前页为首页")
+            }else {
+                location.href="/user/blogPage?nowPage=1"
+            }
+        }
+
+        function prePage(){
+            if([[${nowPage}]] == 1){
+                alert("当前页为第一页")
+            }else {
+                location.href="/user/blogPage?nowPage=" + ([[${nowPage}]]-1)
+            }
+        }
+
+        function nextPage(){
+            if([[${nowPage}]] == [[${pageCount}]]){
+                alert("当前页为第最后一页")
+            }else {
+                location.href="/user/blogPage?nowPage=" + ([[${nowPage}]]+1)
+            }
+        }
+
+        function lastPage(){
+            if([[${nowPage}]] == [[${pageCount}]]){
+                alert("当前页为尾页")
+            }else {
+                location.href="/user/blogPage?nowPage=" + [[${pageCount}]]
+            }
+        }
+
+    </script>
+</head>
+<body id="style">
+<!--<h1>user</h1>-->
+
+<!--<div>
+    <iframe id="topFrame"  name="topFrame" th:src="@{/backPage/userTop(username=${username})}"></iframe>
+</div>
+
+<div>
+    <iframe id="leftFrame" name="leftFrame" src="/backPage/userLeft"></iframe>
+    <iframe id="rightFrame" name="rightFrame" src="/backPage/userRight"></iframe>
+</div>-->
+
+<p style="font-size:40px;font-family: 楷体">[[${username}]]的博客</p>
+<p style="font-family: 楷体">欢迎您，<a href="/login/loginPage">退出</a></p>
+
+<!--<div style="height: 200px;width:80%;background-color: aqua">
+    <p style="font-size: 60px;text-align: center;line-height: 200px">这是图片，网上找不到好图片</p>
+</div>-->
+<br>
+<div th:each="blog:${blogList}" id="context">
+    <a class="total_style" th:href="@{/user/comment(blogid=${blog.id},username=${username},nowPage=${nowPage},password=${password})}"><p style="font-size:40px;font-family: 楷体">[[${blog.title}]]</p></a>
+    <p style="font-size:10px;font-family: 楷体">[[${#dates.format(blog.createdtime,'yyyy-MM-dd HH-mm-SS')}]]</p>
+    <a class="total_style" th:href="@{/user/comment(blogid=${blog.id},username=${username},nowPage=${nowPage},password=${password})}"><p style="font-size:20px;font-family: 楷体">[[${blog.context}]]</p></a>
+    <a th:href="@{/user/comment(blogid=${blog.id},username=${username},nowPage=${nowPage},password=${password})}">评论</a>
+    <!--<input type="button" class="check" value="评论"/>
+    <input type="text" class="text" name="commentContext" id="commentContext"/>
+    <input type="hidden" name="blogid" id="blogid" th:value="${blog.id}">
+    <input type="hidden" name="username" id="username" th:value="${username}">
+    <button name="comment" id="comment" onclick="submit()" value="确认"></button>-->
+</div>
+
+<div id="div_total">
+    <span id="span_left">
+        <a class="total_style" >共[[${totalSize}]]条纪录，当前第[[${nowPage}]]/[[${pageCount}]]页，每页[[${pageSize}]]条纪录</a>
+    </span>
+
+    <span id="span_right">
+        <a class="total_style" href="#"  onclick="homePage()">首页</a>
+        <a class="total_style" href="#"  onclick="prePage()">上一页</a>
+        <a class="total_style" href="#" onclick="nextPage()">下一页</a>
+        <a class="total_style" href="#" onclick="lastPage()">尾页</a>
+    </span>
+</div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#table_line{
+				border-style: dashed;
+				width: 80%;
+				margin-left: 20px;
+
+			}
+
+			#body{
+				background: bisque;
+				undefined;
+				width: 90%;
+				overflow:auto;
+				margin: 0 auto;
+			}
+		</style>
+		<script type="text/javascript" src="../js/jquery-3.6.0.js"></script>
+		<script type="text/javascript">
+			function recall(){
+				window.location.href="right"
+			}
+		</script>
+	</head>
+	<body id="body" style="background-color: azure;">
+	<h3>&nbsp;&nbsp;&nbsp;&nbsp;当前位置：分类管理</h3>
+	<form action="/admin/insertBlog" method="get">
+		<table border="1" align="center" id="table_line">
+			<input type="hidden" name="id" id="id">
+			<tr>
+				<td width="200px">名称</td>
+				<td width="200px">排序</td>
+				<td>操作</td>
+			</tr>
+			<tr th:each="classBlog:${classBlogList}">
+				<td th:text="${classBlog.name}"></td>
+				<td th:text="${classBlog.sort}"></td>
+				<td>
+					<a th:href="@{/admin/blogClassSetPage(id=${classBlog.id},name=${classBlog.name},sort=${classBlog.sort})}">编辑</a>
+					<a th:href="@{/admin/blogClassDelete(id=${classBlog.id})}">删除</a>
+					<a href="#" onclick="recall()">返回上一级</a>
+				</td>
+			</tr>
+		</table>
+	</form>
+	</body>
+</html>

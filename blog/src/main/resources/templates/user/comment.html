@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        #table_line{
+            border-style: dashed;
+            width: 80%;
+            margin-left: 20px;
+
+        }
+        #context{
+            /*text-align: center;*/
+            width: 80%;
+            margin-left: 20px
+        }
+
+        #body{
+            background: bisque;
+            undefined;
+            width: 90%;
+            overflow:auto;
+            margin: 0 auto;
+        }
+    </style>
+    <script type="text/javascript" src="../js/jquery-3.6.0.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+        function recall(){
+            location.href="/user/blogPage?username=" + [[${username}]] + "&password=" + [[${password}]] + "&nowPage=" + [[${nowPage}]]
+        }
+    </script>
+
+</head>
+<body id="body">
+<form action="/user/insertComment" method="get">
+    <table id="table_line" border="1" align="center" >
+        <tr>
+            <td width="20%">评论人</td>
+            <td width="20%">评论内容</td>
+            <td width="20%">评论时间</td>
+        </tr>
+        <tr th:each="comment:${commentList}">
+            <td th:text="${comment.username}"></td>
+            <td th:text="${comment.context}"></td>
+            <td th:text="${#dates.format(comment.createdtime,'yyyy-MM-dd')}"></td>
+        </tr>
+    </table>
+    <input type="hidden" name="blogid" th:value="${blogid}">
+    <input type="hidden" name="username" th:value="${username}">
+    <input type="hidden" name="nowPage" th:value="${nowPage}">
+    <input type="hidden" name="password" th:value="${password}">
+    <br>
+    <div id="context">
+        <textarea name="context" style="width: 80%;height: 300px" placeholder="请输入"></textarea>
+        <input type="submit" value="提交">
+        <input type="reset" value="重新输入">
+        <input type="button" value="取消" onclick="recall()">
+    </div>
+</form>
+</body>
+</html>

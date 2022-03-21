@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+
+		<style type="text/css">
+			#table_line{
+				border-style: dashed;
+				width: 80%;
+				margin-left: 20px;
+
+			}
+
+			#body{
+				background: bisque;
+				undefined;
+				width: 90%;
+				overflow:auto;
+				margin: 0 auto;
+			}
+
+			/*#context{
+				width: 30%;
+				height: 50%;
+			}*/
+		</style>
+		<script type="text/javascript" src="../js/jquery-3.6.0.js"></script>
+		<script type="text/javascript">
+			function recall(){
+				window.location.href="right"
+			}
+		</script>
+
+	</head>
+	<body id="body" style="background-color: azure;">
+	<h3>&nbsp;&nbsp;&nbsp;&nbsp;当前位置：博文编辑/添加</h3>
+	<form action="/admin/insertBlog" method="get">
+		<table border="1" align="center" id="table_line">
+			<input type="hidden" name="id" id="id">
+			<tr>
+				<td width="200px">博文标题</td>
+				<td>
+					<input type="text" name="title" id="title">
+				</td>
+			</tr>
+			<tr>
+				<td>博文所属分类</td>
+				<td>
+					<select name="classid">
+						<div th:each="classname:${allClassNameList}">
+							<option selected th:value="${classname.id}" th:text="${classname.name}"></option>
+						</div>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>博文内容</td>
+				<td>
+<!--					<input type="text" name="context" id="context" style="width: 98%;height: 300px">-->
+					<textarea name="context" id="context" style="width: 500px;height: 300px"></textarea>
+				</td>
+
+			</tr>
+			<tr>
+				<td colspan="2">
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="submit" value="提交">&nbsp;&nbsp;
+					<input type="reset" value="重置">&nbsp;&nbsp;
+					<input type="button" value="取消" onclick="recall()">
+				</td>
+			</tr>
+		</table>
+	</form>
+	</body>
+</html>
