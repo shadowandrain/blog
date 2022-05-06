@@ -3,12 +3,35 @@
 	<head>
 		<meta charset="utf-8">
 		<title></title>
+		<style type="text/css" >
+			/*链接平常样式*/
+			a:link {
+				/*color: ;*/
+				color: black;
+				text-decoration:none;
+			}
+			/*链接访问后样式*/
+			a:visited {
+				color: #2b7de1;
+				text-decoration:none;
+			}
+			/*鼠标放到链接上样式*/
+			a:hover {
+				color: aqua;
+				text-decoration:none;
+			}
+
+			/*链接被按下时样式*/
+			a:active {
+				color:#FFFFFF;
+				text-decoration:none;
+			}
+		</style>
 	</head>
-	<body style="background-color: antiquewhite;">
-		<p style="font-family: 楷体">博客管理系统后台</p>
-		<p style="font-family: 楷体">欢迎您，<a href="/login/loginPage" target="_top">退出</a></p>
+	<body style="background-color: #0f3460;">
+		<p style="font-family: 楷体;color: #2b7de1">博客管理系统后台</p>
+		<p style="font-family: 楷体;color: #2b7de1">欢迎您，<a href="/login/loginPage" target="_top">退出</a></p>
 		<a href="/admin/putBlog" target="rightFrame" style="font-family: 楷体">发布博文</a><br>
-<!--		<a th:href="@{/admin/blogSet(nowPage=1)}" target="rightFrame" style="font-family: 楷体">博文管理</a><br><br>-->
 		<a href="/admin/blogSet?nowPage=1" target="rightFrame" style="font-family: 楷体">博文管理</a><br><br>
 		<a href="/admin/insertBlogClass" target="rightFrame" style="font-family: 楷体">添加博文分类</a><br>
 		<a href="/admin/blogClassSet" target="rightFrame" style="font-family: 楷体">博文分类管理</a><br><br>

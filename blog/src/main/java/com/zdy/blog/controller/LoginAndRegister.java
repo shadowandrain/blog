@@ -85,7 +85,6 @@ public class LoginAndRegister {
             Users user = new Users();
             user.setUsername(username);
             user.setPower(power);
-//            model.addAttribute("user",user);
             model.addAttribute("username",username);
             model.addAttribute("password",password);
             model.addAttribute("power",power);
@@ -100,15 +99,12 @@ public class LoginAndRegister {
                 model.addAttribute("pageSize",pageSize);
                 model.addAttribute("nowPage",nowPage);
                 model.addAttribute("pageCount",pageCount);
-                /*List<Blog> blogList = lgService.selectBlogAll();
-                model.addAttribute("blogList",blogList);*/
                 return "user/userPage";
-            } else {
-                return "login/loginErrorPower";
             }
         } else {
             return "login/loginInfoError";
         }
+        return "";
     }
 
     /**

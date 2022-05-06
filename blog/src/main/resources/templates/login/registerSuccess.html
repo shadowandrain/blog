@@ -5,36 +5,75 @@
   <title>Title</title>
   <script type="text/javascript" src="../js/jquery-3.6.0.js"></script>
   <script type="text/javascript">
-    function login(){
+    window.onload = function(){
+
+      var usernameElt = document.getElementById("username");
+      // 给username这个文本框绑定获得焦点事件
+      usernameElt.onfocus = function(){
+        // 清空信息错误提示
+        var infoError = document.getElementById("infoError");
+        infoError.innerText = "";
+      }
+
+      var submitBtnElt = document.getElementById("login");
+      submitBtnElt.onclick = function(){
+        var userForm = document.getElementById("userForm");
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        if(username === ""){
+          alert("请输入用户名");
+        }else if(password === ""){
+          alert("请输入密码");
+        }else{
+          userForm.submit();
+        }
+
+      }
+    }
+    function register(){
       window.location.href="registerPage"
     }
   </script>
 </head>
 <body>
-<h1 align="center">登录页面</h1>
-<h1 align="center">注册成功</h1>
-<form action="/login/userLogin" method="get">
+
+<form action="/login/userLogin" method="post" id="userForm">
+
+  <table align="center" border="0">
+    <tr>
+      <td>
+      <th>
+        <h1 align="center">登录页面</h1>
+        <span id="infoError" style="color: red; font-size: 12px;">注册成功</span>
+      </th>
+      </td>
+    </tr>
+  </table>
   <table align="center" border="1" cellspacing="0">
+
+    <input type="hidden" value="123"/>
     <tr>
       <td>
         账号:
       </td>
       <td>
-        <input type="text" name="username" id="username" />
+        <input type="text" id="username" name="username" placeholder="请输入用户名" />
       </td>
     </tr>
+
     <tr>
       <td>
         密码:
       </td>
       <td>
-        <input type="password" name="password" id="password" />
+        <input type="password" id="password" name="password"  placeholder="请输入密码" />
       </td>
     </tr>
+
     <tr>
       <td colspan="2" align="center">
-        <input type="submit" value="登录" />&nbsp;&nbsp;&nbsp;&nbsp;
-        <input type="button"  value="注册" onclick="login()"/>
+        <input id="login" type="button" value="登录" />&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="button"  value="注册" onclick="register()"/>
       </td>
     </tr>
   </table>

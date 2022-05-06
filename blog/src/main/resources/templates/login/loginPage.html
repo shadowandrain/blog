@@ -1,42 +1,61 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <title>Title</title>
   <script type="text/javascript" src="../js/jquery-3.6.0.js"></script>
   <script type="text/javascript">
-    function login(){
+    window.onload = function(){
+      var submitBtnElt = document.getElementById("login");
+      submitBtnElt.onclick = function(){
+        var userForm = document.getElementById("userForm");
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        if(username === ""){
+          alert("请输入用户名");
+        }else if(password === ""){
+          alert("请输入密码");
+        }else{
+          userForm.submit();
+        }
+
+      }
+    }
+    function register(){
       window.location.href="registerPage"
     }
   </script>
 </head>
 <body>
 <h1 align="center">登录页面</h1>
-  <form action="/login/userLogin" method="get">
-    <table align="center" border="1" cellspacing="0">
-      <tr>
-        <td>
-          账号:
-        </td>
-        <td>
-          <input type="text" name="username" id="username" />
-        </td>
-      </tr>
-      <tr>
-        <td>
-          密码:
-        </td>
-        <td>
-          <input type="password" name="password" id="password" />
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2" align="center">
-          <input type="submit" value="登录" />&nbsp;&nbsp;&nbsp;&nbsp;
-          <input type="button"  value="注册" onclick="login()"/>
-        </td>
-      </tr>
-    </table>
-  </form>
+
+<form action="/login/userLogin" method="post" id="userForm">
+  <table align="center" border="1" cellspacing="0">
+    <tr>
+      <td>
+        账号:
+      </td>
+      <td>
+        <input type="text" id="username" name="username" placeholder="请输入用户名" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        密码:
+      </td>
+      <td>
+        <input type="password" id="password" name="password"  placeholder="请输入密码" />
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="2" align="center">
+        <input id="login" type="button" value="登录" />&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="button"  value="注册" onclick="register()"/>
+      </td>
+    </tr>
+  </table>
+</form>
 </body>
 </html>

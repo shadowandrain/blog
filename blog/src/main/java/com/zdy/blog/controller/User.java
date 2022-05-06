@@ -42,17 +42,6 @@ public class User {
      * 通过Id添加评论信息
      * @param model
      */
-    /*@RequestMapping("/comment")
-    public void comment(Integer id,String context,String username, Model model){
-        Comment comment = new Comment();
-        comment.setContext(context);
-        comment.setCreatedtime(new Date());
-        comment.setId(id);
-        comment.setUsername(username);
-        commentService.insertComment(comment);
-    }*/
-
-
     @RequestMapping("/comment")
     public String comment(Integer blogid,Integer nowPage,String username,String password,Model model) {
         List<Comment> commentList = commentService.getAllComment(blogid);
