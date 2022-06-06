@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#table_line{
+				border-style: dashed;
+				width: 80%;
+				margin-left: 20px;
+			}
+
+			#body{
+				background: bisque;
+				undefined;
+				width: 90%;
+				overflow:auto;
+				margin: 0 auto;
+			}
+		</style>
+	</head>
+	<body id="body" style="background-color: azure;">
+		<h3>&nbsp;&nbsp;&nbsp;&nbsp;当前位置：用户管理</h3>
+		<form>
+			<table border="1" align="center" id="table_line">
+				<tr>
+					<td>用户名</td>
+					<td>Email</td>
+					<td>身份</td>
+					<td>操作</td>
+				</tr>
+				<!--<div th:each="user:${userList}">-->
+				<tr th:each="user:${userList}">
+					<td th:text="${user.username}"></td>
+					<td th:text="${user.email}"></td>
+					<td th:text="${user.power}"></td>
+					<td>
+						<a th:href="@{/admin/userReset(username=${user.username},password=${user.password},email=${user.email},power=${user.power})}">编辑</a>
+						<a th:href="@{/admin/deleteUserInfo(username=${user.username},power=${user.power})}">删除</a>
+					</td>
+				</tr>
+			</table>
+		</form>
+		</div>
+	</body>
+</html>

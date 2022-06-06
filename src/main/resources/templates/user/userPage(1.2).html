@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <link rel="stylesheet" type="text/css" href="../css/user_page_style.css">
+  <script type="text/javascript" src="../js/jquery-3.6.0.js"></script>
+  <link href="../layui/css/layui_amend.css" rel="stylesheet">
+  <script src="../layui/layui.js"></script>
+</head>
+<body>
+<div id="user_page">
+  <!-- 顶部区域 -->
+  <div id="user_title">
+    <div id="user_logo">
+      <p id="zdy_blog" style="line-height: 2">詹冬园的博客</p>
+    </div>
+    <div id="user_photo_info">
+      <ul class="top-u">
+        <li class="on">
+          <a href="#" class="menu-btn">头像</a>
+          <ul class="topDown">
+            <li><a id="user_center" href="">个人中心</a></li>
+            <li><a href="/login/index">退出登录</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <script type="text/javascript" th:inline="javascript">
+      $(".on").hover(
+              function(){
+                $(".topDown").show();
+              },
+              function(){
+                $(".topDown").hide();
+              }
+      );
+
+      $("#user_center").click(function(){
+        alert("user_center")
+      })
+    </script>
+  </div>
+
+  <!-- 导航栏 -->
+  <!--不好看，换了-->
+  <!--    <div id="navigation_bar">-->
+  <!--        <div class="navigation_bar_classify"><a href="#" style="line-height: 1.8">动漫</a></div>-->
+  <!--        <div class="navigation_bar_classify"><a href="#" style="line-height: 1.8">游戏</a></div>-->
+  <!--        <div class="navigation_bar_classify"><a href="#" style="line-height: 1.8">音乐</a></div>-->
+  <!--        <div class="navigation_bar_classify"><a href="#" style="line-height: 1.8">视频</a></div>-->
+  <!--    </div>-->
+
+  <!-- 导航栏 -->
+  <p style="color: #009688"></p>
+  <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+    <ul class="layui-tab-title">
+      <li class="layui-this">动漫</li>
+      <li>游戏</li>
+      <li>音乐</li>
+      <li>电影</li>
+      <li>社区</li>
+    </ul>
+  </div>
+
+  <script>
+    layui.use('element', function(){
+      var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+
+      //导航点击事件
+      element.on('nav(demo)', function(elem){
+        //console.log(elem)
+        layer.msg(elem.text());
+      });
+    });
+  </script>
+
+  <!-- 内容区域 -->
+  <div th:each="blog:${blogList}" id="user_content">
+    <div class="user_content_info" id="user_content_info">
+      <a th:href="@{/user/comment(blogId=${blog.id},username=${username},blogTitle=${blog.title},blogTime=${blog.createdtime},blogContext=${blog.context})}">
+        <p style="font-size:40px;font-family: 楷体">[[${blog.title}]]</p>
+      </a>
+        <br>
+        <p style="font-size:10px;font-family: 楷体">[[${#dates.format(blog.createdtime,'yyyy-MM-dd HH-mm-SS')}]]</p>
+        <br>
+        <p style="font-size:20px;font-family: 楷体">[[${blog.context}]]</p>
+    </div>
+  </div>
+
+  <!-- 底部区域 -->
+  <div id="user_bottom">
+    <div id="user_bottom_left">
+      <p class="total_style" href="#">共[[${totalSize}]]条纪录，当前第[[${nowPage}]]/[[${pageCount}]]页，每页[[${pageSize}]]条纪录</p>
+    </div>
+
+    <div id="user_bottom_right">
+      <a class="total_style" href="#"  onclick="homePage()">首页</a>
+      <a class="total_style" href="#"  onclick="prePage()">上一页</a>
+      <a class="total_style" href="#" onclick="nextPage()">下一页</a>
+      <a class="total_style" href="#" onclick="lastPage()">尾页</a>
+    </div>
+  </div>
+
+  <script type="text/javascript" th:inline="javascript">
+    function homePage(){
+      if([[${nowPage}]] == 1){
+        alert("当前页为首页")
+      }else {
+        location.href="/user/blogPage?nowPage=1"
+      }
+    }
+
+    function prePage(){
+      if([[${nowPage}]] == 1){
+        alert("当前页为第一页")
+      }else {
+        location.href="/user/blogPage?nowPage=" + ([[${nowPage}]]-1)
+      }
+    }
+
+    function nextPage(){
+      if([[${nowPage}]] == [[${pageCount}]]){
+        alert("当前页为第最后一页")
+      }else {
+        location.href="/user/blogPage?nowPage=" + ([[${nowPage}]]+1)
+      }
+    }
+
+    function lastPage(){
+      if([[${nowPage}]] == [[${pageCount}]]){
+        alert("当前页为尾页")
+      }else {
+        location.href="/user/blogPage?nowPage=" + [[${pageCount}]]
+      }
+    }
+  </script>
+</div>
+</body>
+</html>

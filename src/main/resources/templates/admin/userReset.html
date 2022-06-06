@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+      #table_line{
+        border-style: dashed;
+        width: 80%;
+        margin-left: 20px;
+
+      }
+
+      #body{
+        background: bisque;
+        undefined;
+        width: 90%;
+        overflow:auto;
+        margin: 0 auto;
+      }
+    </style>
+    <script type="text/javascript" src="../js/jquery-3.6.0.js"></script>
+    <script type="text/javascript">
+      function recall(){
+        window.location.href="userSet"
+      }
+    </script>
+</head>
+<body id="body" style="background-color: azure;">
+<h3>&nbsp;&nbsp;&nbsp;&nbsp;当前位置：用户编辑/添加</h3>
+<form action="/admin/resetInfo" method="get">
+  <table align="center" border="1" cellspacing="0" id="table_line">
+    <tr>
+      <td align="center" width="150px">
+        账号:
+      </td>
+      <td>
+        <input type="text" name="username" id="username" th:value="${user.username}"/>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        密码:
+      </td>
+      <td>
+        <input type="password" name="password" id="password" th:value="${user.password}"/>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        email:
+      </td>
+      <td>
+        <input type="text" name="email" id="email" th:value="${user.email}"/>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        用户权限:
+      </td>
+      <td>
+        <select name="power">
+          <div th:if="${user.power == 'admin'}">
+            <option value="user">普通用户</option>
+            <option selected value="admin">管理员</option>
+          </div>
+          <div th:if="${user.power == 'user'}">
+            <option selected value="user">普通用户</option>
+            <option value="admin">管理员</option>
+          </div>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" width="200px">&nbsp;&nbsp;&nbsp;
+        <input type="submit" value="提交">
+        <input type="reset" value="重置">
+        <input type="button" value="取消" onclick="recall()">
+      </td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>

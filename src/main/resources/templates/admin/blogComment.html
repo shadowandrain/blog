@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        #table_line{
+            border-style: dashed;
+            width: 80%;
+            margin-left: 20px;
+
+        }
+
+        #body{
+            background: bisque;
+            undefined;
+            width: 90%;
+            overflow:auto;
+            margin: 0 auto;
+        }
+    </style>
+
+</head>
+<body id="body" style="background-color: azure;">
+<h3>&nbsp;&nbsp;&nbsp;&nbsp;当前位置：评论管理</h3>
+    <table id="table_line" border="1" align="center" >
+        <tr>
+            <td width="20%">评论内容</td>
+            <td width="20%">评论人</td>
+            <td width="20%">评论时间</td>
+            <td width="20%">操作</td>
+        </tr>
+        <tr th:each="comment:${commentList}">
+            <td th:text="${comment.context}"></td>
+            <td th:text="${comment.username}"></td>
+<!--            <td th:text="${comment.id}"></td>-->
+<!--            <td th:text="${comment.blogid}"></td>-->
+            <td th:text="${#dates.format(comment.createdtime,'yyyy-MM-dd')}"></td>
+            <td>
+                <a th:href="@{/comment/deleteBlogComment(commentid=${comment.id},blogid=${comment.blogid})}">删除</a>
+                <a th:href="@{/admin/blogSet(nowPage=1)}">返回上一级</a>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

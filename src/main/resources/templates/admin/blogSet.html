@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#table_line{
+				border-style: dashed;
+				width: 80%;
+				margin-left: 20px;
+
+			}
+
+			#body{
+				background: bisque;
+				undefined;
+				width: 90%;
+				overflow:auto;
+				margin: 0 auto;
+			}
+
+			#div_total{
+				width: 80%;
+				margin-left: 20px;
+			}
+
+			#span_left{
+				float: left;
+			}
+
+			#span_right{
+				float: right;
+			}
+
+			.total_style{
+				font-family: 楷体;
+				font-size: 13px;
+				text-decoration:none;
+			}
+		</style>
+		<script type="text/javascript" src="../js/jquery-3.6.0.js"></script>
+		<script type="text/javascript">
+			function select_title(){
+				var select_title = document.getElementById("select_title").value;
+				if(select_title == ""){
+					alert("查询内容不能为空")
+				}else {
+					location.href="blogTitleSelect?select_title=" + select_title;
+				}
+			}
+
+			function recall(){
+				location.href="blogSet?nowPage=1"
+			}
+
+			function homePage(){
+				if([[${nowPage}]] == 1){
+					alert("当前页为首页")
+				}else {
+					location.href="blogSet?nowPage=1"
+				}
+			}
+
+			function prePage(){
+				if([[${nowPage}]] == 1){
+					alert("当前页为第一页")
+				}else {
+					location.href="blogSet?nowPage=" + ([[${nowPage}]]-1)
+				}
+			}
+
+			function nextPage(){
+				if([[${nowPage}]] == [[${pageCount}]]){
+					alert("当前页为第最后一页")
+				}else {
+					location.href="blogSet?nowPage=" + ([[${nowPage}]]+1)
+				}
+			}
+
+			function lastPage(){
+				if([[${nowPage}]] == [[${pageCount}]]){
+					alert("当前页为尾页")
+				}else {
+					location.href="blogSet?nowPage=" + [[${pageCount}]]
+				}
+			}
+
+
+		</script>
+	</head>
+	<body id="body" style="background-color: azure;">
+		<h3>&nbsp;&nbsp;&nbsp;&nbsp;当前位置：博文管理</h3>
+		<div>
+			<h4>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;查询条件：博文标题<input type="text" name="select_title" id="select_title">
+				<button type="submit" onclick="select_title()">查询</button>
+				<button type="submit" onclick="recall()">返回</button>
+			</h4>
+		</div>
+		<form>
+			<table border="1" align="center" id="table_line">
+				<tr>
+					<td>博文标题</td>
+					<td>所属分类</td>
+					<td>发布时间</td>
+					<td>操作</td>
+				</tr>
+				<tr th:each="blog:${blogsList}">
+					<td th:text="${blog.title}"></td>
+					<td th:text="${blog.classBlog.name}"></td>
+<!--					<td th:text="${blog.createdtime}"></td>-->
+					<td th:text="${#dates.format(blog.createdtime,'yyyy-MM-dd HH-mm-SS')}"></td>
+					<td>
+						<a th:href="@{/admin/blogInfoEditPage(id=${blog.id},title=${blog.title},context=${blog.context},createdtime=${blog.createdtime},classid=${blog.classid},classname=${blog.classBlog.name})}">编辑</a>
+						<a th:href="@{/admin/deleteBlogInfo(id=${blog.id},nowPage=1,title=${blog.title},createdtime=${blog.createdtime},classid=${blog.classid})}">删除</a>
+						<a th:href="@{/comment/blogComment(blogid=${blog.id},title=${blog.title},createdtime=${blog.createdtime},classid=${blog.classid},classname=${blog.classBlog.name})}">评论</a>
+					</td>
+				</tr>
+			</table>
+		</form>
+		<div id="div_total">
+				<span id="span_left">
+					<a class="total_style" >共[[${totalSize}]]条纪录，当前第[[${nowPage}]]/[[${pageCount}]]页，每页[[${pageSize}]]条纪录</a>
+				</span>
+			<span id="span_right">
+					<a class="total_style" href="#"  onclick="homePage()">首页</a>
+					<a class="total_style" href="#"  onclick="prePage()">上一页</a>
+					<a class="total_style" href="#" onclick="nextPage()">下一页</a>
+					<a class="total_style" href="#" onclick="lastPage()">尾页</a>
+			</span>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <link rel="stylesheet" type="text/css" href="../css/formPage.css">
+  <script type="text/javascript" src="../js/jquery-3.6.0.js"></script>
+</head>
+<body>
+<div align="center">
+  <form action="/login/userLogin" method="get" id="login_form">
+    <table style="width: 500px;height: 180px">
+      <tr>
+        <td align="center">用户名:</td>
+        <td align="left">
+          <input id="username" type="text" name="username" placeholder="请输入用户名" value=""/>
+        </td>
+      </tr>
+      <tr>
+        <td align="center">密码:</td>
+        <td align="left">
+          <input id="password" type="password" name="password" placeholder="请输入密码" value=""/>
+        </td>
+      </tr>
+      <tr>
+        <td align="center">验证码:</td>
+        <td align="left">
+          <input id="verification_code" type="text" name="verification_code" placeholder="请输入验证码" value=""/>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2"  align="center">
+          <button id="login" type="button">登录</button>
+          <button id="register" type="button">注册</button>
+        </td>
+      </tr>
+
+      <script type="text/javascript" th:inline="javascript">
+        // 登录按钮
+        $("#login").click(function(){
+          var login_form = $("#login_form");
+          var username = $("#username").val().trim();//去除前后空格
+          var password = $("#password").val().trim();
+          var verification_code = $("#verification_code").val().trim();
+          if(username === ""){
+            alert("请输入用户名");
+          }else if(password === ""){
+            alert("请输入密码");
+          }else if(verification_code === ""){
+            alert("请输入验证码");
+          }else{
+            login_form.submit();//提交表单
+          }
+        })
+
+        // 注册按钮
+        $("#register").click(function(){
+          window.location.href="registerPage"
+        })
+      </script>
+    </table>
+  </form>
+</div>
+</body>
+</html>

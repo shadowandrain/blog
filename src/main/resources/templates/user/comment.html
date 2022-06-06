@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../css/comment_page_style.css">
+    <script type="text/javascript" src="../js/jquery-3.6.0.js"></script>
+</head>
+<body>
+<div id="blog_comment_page">
+    <div id="blog_title">
+        <p style="font-size: 40px;line-height: 1;">[[${blogTitle}]]</p>
+    </div>
+
+    <div id="blog_publish_time">
+        <p style="font-size: 10px;font-style: italic;letter-spacing: 0.2em;line-height: 0;font-weight: 500;">[[${#dates.format(blogTime,'yyyy-MM-dd HH:mm:SS')}]]</p>
+    </div>
+
+    <div id="blog_content">
+        <p>[[${blogContext}]]</p>
+    </div>
+
+    <hr color="#9b9b9b"/>
+
+    <div id="blog_comment">
+        <div id="user_comment">
+            <div id="user_comment_textbox">
+                <textarea style="width: 95%; height: 70px;" id="comment_content"></textarea>
+            </div>
+            <div id="user_comment_botton">
+                <button type="button" name="submit_comment" id="submit_comment" class="button button1">评论</button>
+            </div>
+        </div>
+        <script type="text/javascript" th:inline="javascript">
+            $("#submit_comment").click(function(){
+                var comment_content = $("#comment_content").val();
+                $(location).attr("href","/user/insertComment?" + "blogId=" + [[${blogId}]] + "&username=" + [[${username}]] + "&context=" + comment_content
+                    + "&blogTitle=" + [[${blogTitle}]] + "&blogTime=" + [[${blogTime}]] + "&blogContext=" + [[${blogContext}]]
+                    //当blogContext内容过多会报错，待处理
+                );
+            })
+        </script>
+
+        <div id="all_comment" th:each="comment:${commentList}">
+            <div id="comment_user_info" style="line-height: 2;">
+                <div id="comment_user_name">
+                    [[${comment.username}]]
+                </div>
+                <div id="comment_user_time">
+                    [[${#dates.format(comment.createdtime,'yyyy-MM-dd')}]]
+                </div>
+            </div>
+
+            <hr color="#9b9b9b"/>
+
+            <div id="user_comment_content">
+                [[${comment.context}]]
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

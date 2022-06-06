@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script type="text/javascript" src="../js/jquery-3.6.0.js"></script>
+  <script type="text/javascript">
+    window.onload = function(){
+
+      var usernameElt = document.getElementById("username");
+      // 给username这个文本框绑定获得焦点事件,修改成给表单单击事件
+      /*usernameElt.onfocus = function(){
+        // 清空信息错误提示
+        var infoError = document.getElementById("infoError");
+        infoError.innerText = "";
+      }*/
+
+      var submitBtnElt = document.getElementById("login");
+      submitBtnElt.onclick = function(){
+        var userForm = document.getElementById("userForm");
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        if(username === ""){
+          alert("请输入用户名");
+        }else if(password === ""){
+          alert("请输入密码");
+        }else{
+          userForm.submit();
+        }
+
+      }
+    }
+    function register(){
+      window.location.href="registerPage"
+    }
+  </script>
+</head>
+<body>
+
+<form action="/login/userLogin" method="post" id="userForm">
+
+  <table align="center" border="0">
+    <tr>
+      <td>
+      <th>
+        <h1 align="center">登录页面</h1>
+        <span id="infoError" style="color: red; font-size: 12px;">注册成功</span>
+      </th>
+      </td>
+    </tr>
+  </table>
+  <table align="center" border="1" cellspacing="0">
+
+    <input type="hidden" value="123"/>
+    <tr>
+      <td>
+        账号:
+      </td>
+      <td>
+        <input type="text" id="username" name="username" placeholder="请输入用户名" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        密码:
+      </td>
+      <td>
+        <input type="password" id="password" name="password"  placeholder="请输入密码" />
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="2" align="center">
+        <input id="login" type="button" value="登录" />&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="button"  value="注册" onclick="register()"/>
+      </td>
+    </tr>
+  </table>
+  <script type="text/javascript">
+    //单击表单清除提示信息
+    $("table").click(function(){
+      var infoError = document.getElementById("#registerSuccess");
+      infoError.innerText = "";
+    })
+  </script>
+  <span id="registerSuccess" style="color: red; font-size: 12px;">注册成功，请输入账号密码</span>
+</form>
+</body>
+</html>
